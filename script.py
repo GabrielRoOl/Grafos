@@ -89,8 +89,20 @@ for i in range(len(rota) - 1):
     aresta = (rota[i], rota[i + 1])
     aresta_rota.append(aresta)
 
+# --- Bloco de Desenho Corrigido ---
+
+# Calcula a posição dos nós uma única vez para que tudo fique alinhado
 pos = nx.spring_layout(G)
-nx.draw(G, with_labels=True, node_color="lightblue", edge_color="gray")
-nx.draw_networkx(G, pos, with_labels=True, edgelist=aresta_rota, node_color="yellow", edge_color="red", width=2)
-print(aresta_rota)
+
+# Camada 1: Desenha os nós e as arestas de fundo
+nx.draw_networkx_nodes(G, pos, node_color='lightblue')
+nx.draw_networkx_edges(G, pos, edge_color='gray')
+
+# Camada 2: Desenha os nomes (rótulos)
+nx.draw_networkx_labels(G, pos)
+
+# Camada 3: Desenha APENAS as arestas do caminho por cima, em vermelho
+nx.draw_networkx_edges(G, pos, edgelist=aresta_rota, edge_color='red', width=2)
+
+# Mostra o resultado final de todas as camadas juntas
 plt.show()
