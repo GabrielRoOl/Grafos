@@ -1,105 +1,32 @@
-import networkx as nx
-import matplotlib.pyplot as plt
-import numpy as np
+from br.com.grafo.RedeSocial import RedeSocial
 
-grafo_amigos = {
-    "Gabriel": ["Taynara", "Jhonatan", "Jeferson"],
-    "Taynara": ["Aline", "Jhonatan"],
-    "Aline": ["Jhonatan", "Taynara"],
-    "Jhonatan": ["Gabriel", "Taynara", "Aline"],
-}
+rede = RedeSocial()
+rede.adicionar_pessoa("Gabriel")
+rede.adicionar_pessoa("João")
+rede.adicionar_pessoa("Ana")
+rede.adicionar_pessoa("Beto")
+rede.adicionar_pessoa("Jeferson")
+rede.adicionar_pessoa("Nelson")
+rede.adicionar_pessoa("Amanda")
+rede.adicionar_pessoa("Taynara")
+rede.adicionar_pessoa("Jonas")
+rede.adicionar_pessoa("Miguel")
 
+rede.adicionar_amizade("Jonas", "João")
+rede.adicionar_amizade("João", "Ana")
+rede.adicionar_amizade("João", "Beto")
+rede.adicionar_amizade("Gabriel", "Beto")
+rede.adicionar_amizade("Gabriel", "Amanda")
+rede.adicionar_amizade("Gabriel", "Jonas")
+rede.adicionar_amizade("Gabriel", "Ana")
 
-def adicionar_pessoas(grafo, nome):
-    """
-    Adiciona uma pessoa ao grafo, se ela ainda não existir.
-    - grafo: o nosso array de amigos
-    - nome: o nome da pessoa que vai ser adicionada
-    """
-    if nome not in grafo:
-        grafo[nome] = []
-    else:
-        print(f"{nome} já existe na rede de amigos.")
+rede.adicionar_amizade("Taynara", "João")
+rede.adicionar_amizade("Taynara", "Amanda")
+rede.adicionar_amizade("Taynara", "Gabriel")
+rede.adicionar_amizade("Taynara", "Jonas")
+rede.adicionar_amizade("Taynara", "Jeferson")
+rede.adicionar_amizade("Jeferson", "Beto")
+rede.adicionar_amizade("Miguel", "Nelson")
 
-
-def adicionar_amizade(grafo, pessoa1, pessoa2):
-    """
-    Adiciona uma nova amizade entre duas pessoas
-    Uma amizade é uma via de mão dupla, por isso adicionamos a conexão nos dois sentidos.
-    """
-    if pessoa1 in grafo and pessoa2 in grafo:
-        if pessoa1 in grafo[pessoa2] or pessoa2 in grafo[pessoa1]:
-            print(f"{pessoa1} e {pessoa2} já são amigos.")
-            return
-        if pessoa1 not in grafo[pessoa2]:
-            grafo[pessoa2].append(pessoa1)
-
-        if pessoa2 not in grafo[pessoa1]:
-            grafo[pessoa1].append(pessoa2)
-
-    else:
-        print(f"Uma ou ambas as pessoas não existem na lista de amigos.")
-
-
-def sugerir_amigos(grafo, nome):
-    """
-    Mostra uma lista de amigos a partir dos amigos dessa pessoa
-    """
-    print(f'\nSugestão de amigos para {nome}: ')
-    if nome not in grafo:
-        print(f"{nome} não está cadastrado.")
-        return
-    amigos = grafo[nome]
-
-    resultado = []
-
-    for amigo_direto in amigos:
-        amigos_dos_amigos = grafo[amigo_direto].copy()
-        if nome in amigos_dos_amigos:
-            amigos_dos_amigos.remove(nome)
-
-        resultado.extend(amigos_dos_amigos)
-
-    lista_final = list(dict.fromkeys(resultado))
-    print(lista_final)
-
-
-adicionar_pessoas(grafo_amigos, "João")
-adicionar_pessoas(grafo_amigos, "Ana")
-adicionar_pessoas(grafo_amigos, "Beto")
-adicionar_pessoas(grafo_amigos, "Jeferson")
-adicionar_pessoas(grafo_amigos, "Nelson")
-adicionar_pessoas(grafo_amigos, "Amanda")
-
-adicionar_amizade(grafo_amigos, "Ana", "Taynara")
-adicionar_amizade(grafo_amigos, "João", "Beto")
-adicionar_amizade(grafo_amigos, "Gabriel", "Beto")
-adicionar_amizade(grafo_amigos, "João", "Ana")
-adicionar_amizade(grafo_amigos, "Nelson", "Amanda")
-adicionar_amizade(grafo_amigos, "Taynara", "Amanda")
-
-plt.title("Grafo Amigos")
-
-G = nx.Graph(grafo_amigos)
-rota = nx.shortest_path(G, "João", "Nelson")
-
-aresta_rota = []
-
-for i in range(len(rota) - 1):
-    aresta = (rota[i], rota[i + 1])
-    aresta_rota.append(aresta)
-
-# Calcula a posição dos nós uma única vez para que tudo fique alinhado
-pos = nx.spring_layout(G)
-
-# Camada 1: Vertices e as arestas de fundo
-nx.draw_networkx_nodes(G, pos, node_color='lightblue')
-nx.draw_networkx_edges(G, pos, edge_color='gray')
-
-# Camada 2: Nomes
-nx.draw_networkx_labels(G, pos)
-
-# Camada 3: Arestas do caminho por cima
-nx.draw_networkx_edges(G, pos, edgelist=aresta_rota, edge_color='red', width=2)
-
-plt.show()
+print(rede.mais_popular())
+rede.visualizar_grafo()
