@@ -81,7 +81,7 @@ adicionar_amizade(grafo_amigos, "Taynara", "Amanda")
 plt.title("Grafo Amigos")
 
 G = nx.Graph(grafo_amigos)
-rota = nx.shortest_path(G, "Nelson", "Jeferson")
+rota = nx.shortest_path(G, "João", "Nelson")
 
 aresta_rota = []
 
@@ -89,20 +89,17 @@ for i in range(len(rota) - 1):
     aresta = (rota[i], rota[i + 1])
     aresta_rota.append(aresta)
 
-# --- Bloco de Desenho Corrigido ---
-
 # Calcula a posição dos nós uma única vez para que tudo fique alinhado
 pos = nx.spring_layout(G)
 
-# Camada 1: Desenha os nós e as arestas de fundo
+# Camada 1: Vertices e as arestas de fundo
 nx.draw_networkx_nodes(G, pos, node_color='lightblue')
 nx.draw_networkx_edges(G, pos, edge_color='gray')
 
-# Camada 2: Desenha os nomes (rótulos)
+# Camada 2: Nomes
 nx.draw_networkx_labels(G, pos)
 
-# Camada 3: Desenha APENAS as arestas do caminho por cima, em vermelho
+# Camada 3: Arestas do caminho por cima
 nx.draw_networkx_edges(G, pos, edgelist=aresta_rota, edge_color='red', width=2)
 
-# Mostra o resultado final de todas as camadas juntas
 plt.show()
