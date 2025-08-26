@@ -135,3 +135,16 @@ class RedeSocial:
                 aux_mais_popular.append(grafo)
 
         return aux_mais_popular
+
+    def visualizar_mais_popular(self):
+        mais_populares = self.mais_popular()
+        plt.title('Grafo com nós mais populares destacados')
+
+        G = nx.DiGraph(self.grafo)
+        pos = nx.spring_layout(G)
+
+        # Cores para os nós
+        cores_nos = ['lightblue' if no not in mais_populares else 'yellow' for no in G.nodes()]
+
+        nx.draw(G, pos, with_labels=True, node_color=cores_nos, edge_color='gray', arrows=False)
+        plt.show()

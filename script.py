@@ -27,6 +27,6 @@ rede.adicionar_amizade("Taynara", "Jonas")
 rede.adicionar_amizade("Taynara", "Jeferson")
 rede.adicionar_amizade("Jeferson", "Beto")
 rede.adicionar_amizade("Miguel", "Nelson")
+rede.adicionar_amizade("Nelson", "Gabriel")
 
-print(rede.mais_popular())
-rede.visualizar_grafo()
+rede.visualizar_mais_popular()
